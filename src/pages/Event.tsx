@@ -13,16 +13,19 @@ import { StoryTab } from "@/components/event/StoryTab";
 const Event = () => {
   const { id } = useParams();
 
-  const { data: event, isLoading } = useQuery({
+  const { data: event, isLoading, error } = useQuery({
     queryKey: ["event", id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("events")
         .select("*")
         .eq("id", id)
-        .single();
+        .maybeSingle();
       
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching event:", error);
+        throw error;
+      }
       return data;
     },
   });

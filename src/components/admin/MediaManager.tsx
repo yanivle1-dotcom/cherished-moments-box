@@ -41,16 +41,28 @@ export const MediaManager = () => {
 
   const createMutation = useMutation({
     mutationFn: async (formData: any) => {
-      const { error } = await supabase.from("media").insert(formData);
-      if (error) throw error;
+      console.log("Creating media with data:", formData);
+      const { data, error } = await supabase.from("media").insert(formData).select();
+      if (error) {
+        console.error("Error creating media:", error);
+        throw error;
+      }
+      console.log("Media created successfully:", data);
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-media"] });
+      queryClient.invalidateQueries({ queryKey: ["media"] });
       toast({ title: "המדיה נוספה בהצלחה" });
       setIsCreateOpen(false);
     },
-    onError: () => {
-      toast({ variant: "destructive", title: "שגיאה בהוספת המדיה" });
+    onError: (error: any) => {
+      console.error("Mutation error:", error);
+      toast({ 
+        variant: "destructive", 
+        title: "שגיאה בהוספת המדיה",
+        description: error.message || "אנא נסה שוב"
+      });
     },
   });
 

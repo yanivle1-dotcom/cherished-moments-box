@@ -34,16 +34,28 @@ export const EventsManager = () => {
 
   const createMutation = useMutation({
     mutationFn: async (formData: any) => {
-      const { error } = await supabase.from("events").insert(formData);
-      if (error) throw error;
+      console.log("Creating event with data:", formData);
+      const { data, error } = await supabase.from("events").insert(formData).select();
+      if (error) {
+        console.error("Error creating event:", error);
+        throw error;
+      }
+      console.log("Event created successfully:", data);
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-events"] });
+      queryClient.invalidateQueries({ queryKey: ["events"] });
       toast({ title: "האירוע נוצר בהצלחה" });
       setIsCreateOpen(false);
     },
-    onError: () => {
-      toast({ variant: "destructive", title: "שגיאה ביצירת האירוע" });
+    onError: (error: any) => {
+      console.error("Mutation error:", error);
+      toast({ 
+        variant: "destructive", 
+        title: "שגיאה ביצירת האירוע",
+        description: error.message || "אנא נסה שוב"
+      });
     },
   });
 
