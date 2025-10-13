@@ -79,14 +79,16 @@ export const EventsManager = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    
+    const statusValue = formData.get("status") as string;
     const data = {
       title: formData.get("title") as string,
       date: formData.get("date") as string,
-      location: formData.get("location") as string,
-      cover_image_url: formData.get("cover_image_url") as string,
-      description_short: formData.get("description_short") as string,
-      description_full: formData.get("description_full") as string,
-      status: formData.get("status") as string,
+      location: formData.get("location") as string || null,
+      cover_image_url: formData.get("cover_image_url") as string || null,
+      description_short: formData.get("description_short") as string || null,
+      description_full: formData.get("description_full") as string || null,
+      status: statusValue as "draft" | "published",
     };
 
     if (editingEvent) {
@@ -124,15 +126,15 @@ export const EventsManager = () => {
       </div>
       <div>
         <Label htmlFor="status">סטטוס</Label>
-        <Select name="status" defaultValue={editingEvent?.status || "draft"}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="draft">טיוטה</SelectItem>
-            <SelectItem value="published">פורסם</SelectItem>
-          </SelectContent>
-        </Select>
+        <select
+          name="status"
+          id="status"
+          defaultValue={editingEvent?.status || "draft"}
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <option value="draft">טיוטה</option>
+          <option value="published">פורסם</option>
+        </select>
       </div>
       <DialogFooter>
         <Button type="submit">
