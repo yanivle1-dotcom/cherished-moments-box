@@ -157,17 +157,17 @@ export const MediaManager = () => {
       </div>
       
       <div>
-        <Label htmlFor="file_url">קישור לקובץ (Google Photos URL)</Label>
+        <Label htmlFor="file_url">קישור ישיר לתמונה</Label>
         <Input 
           id="file_url" 
           name="file_url" 
           type="url" 
           defaultValue={editingMedia?.file_url} 
           required 
-          placeholder="https://lh3.googleusercontent.com/..." 
+          placeholder="https://i.imgur.com/example.jpg" 
         />
         <p className="text-xs text-muted-foreground mt-1">
-          הדבק כאן את הקישור הישיר לתמונה מ-Google Photos. לחץ לחיצה ימנית על התמונה ובחר "העתק קישור לתמונה"
+          הדבק כאן קישור ישיר לתמונה (מסתיים ב-.jpg, .png או .webp). ראה את ההוראות למעלה לגבי שירותי אחסון מומלצים.
         </p>
       </div>
       
