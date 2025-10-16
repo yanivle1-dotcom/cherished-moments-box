@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Heart } from "lucide-react";
+import { Calendar, MapPin, Heart, Settings } from "lucide-react";
 import { format } from "date-fns";
 import { he } from "date-fns/locale";
 import { Link } from "react-router-dom";
@@ -40,6 +40,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Admin Button */}
+      <div className="fixed top-4 left-4 z-50">
+        <Button asChild variant="outline" size="icon" className="rounded-full shadow-lg backdrop-blur-sm bg-background/80 hover:bg-background">
+          <Link to="/admin">
+            <Settings className="h-5 w-5" />
+          </Link>
+        </Button>
+      </div>
+
       {/* Hero Section */}
       <section 
         className="relative h-[70vh] flex items-center justify-center bg-cover bg-center"
